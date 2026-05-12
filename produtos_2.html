@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Portfólio de Produtos · nstech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4EFE6;
+    --ink:#1B1814;
+    --ink-soft:#5A544A;
+    --ink-mute:#8A8478;
+    --line:#D9CFBC;
+    --line-soft:#E5DCC9;
+    --paper:#FDFBF6;
+    --accent:#E85D2F;
+    --core:#0F7B3F;          --core-bg:#D9EBDB;
+    --especialista:#7E3FB2;  --especialista-bg:#E8DCF1;
+    --hub:#1E5FB8;           --hub-bg:#D9E4F2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;
+    -webkit-font-smoothing:antialiased;min-height:100vh;
+    background-image:
+      radial-gradient(circle at 0% 0%, rgba(232,93,47,0.06), transparent 40%),
+      radial-gradient(circle at 100% 100%, rgba(30,95,184,0.04), transparent 50%);
+  }
+  .topbar{border-bottom:1px solid var(--line);background:rgba(244,239,230,.85);backdrop-filter:saturate(140%) blur(10px);position:sticky;top:0;z-index:50}
+  .topbar-inner{max-width:1280px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:24px}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:18px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+  .brand::before{content:"";width:10px;height:10px;border-radius:999px;background:var(--accent);box-shadow:0 0 0 4px rgba(232,93,47,.15)}
+  .crumbs{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-mute);letter-spacing:.04em;text-transform:uppercase}
+  .crumbs a{color:var(--ink-mute);text-decoration:none;border-bottom:1px dotted var(--line)}
+  .crumbs a:hover{color:var(--accent)}
+  .spacer{flex:1}
+
+  .hero{max-width:1280px;margin:0 auto;padding:64px 32px 32px;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:end}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:18px}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(38px,5vw,64px);line-height:1.02;letter-spacing:-.025em;font-variation-settings:"opsz" 100}
+  h1 em{font-style:italic;color:var(--accent);font-weight:400;font-variation-settings:"opsz" 144}
+  .hero-sub{margin-top:16px;color:var(--ink-soft);font-size:16px;line-height:1.55;max-width:560px}
+  .stats{display:flex;gap:28px;border-left:1px solid var(--line);padding-left:28px}
+  .stat .n{font-family:'Fraunces',serif;font-weight:500;font-size:40px;line-height:1;letter-spacing:-.02em;font-variation-settings:"opsz" 144}
+  .stat .l{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-mute);margin-top:8px}
+
+  .filters{max-width:1280px;margin:32px auto 0;padding:0 32px}
+  .filter-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 0;border-top:1px solid var(--line-soft)}
+  .filter-row:first-child{border-top:none}
+  .filter-label{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-mute);width:90px;flex-shrink:0}
+  .chip{font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:500;padding:7px 14px;border:1px solid var(--line);background:var(--paper);color:var(--ink-soft);border-radius:999px;cursor:pointer;transition:all .15s ease;display:inline-flex;align-items:center;gap:7px}
+  .chip .count{font-family:'IBM Plex Mono',monospace;font-size:10px;opacity:.6}
+  .chip:hover{border-color:var(--ink);color:var(--ink)}
+  .chip.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .chip.active .count{opacity:.7}
+  .chip.cls-core.active{background:var(--core);border-color:var(--core)}
+  .chip.cls-especialista.active{background:var(--especialista);border-color:var(--especialista)}
+  .chip.cls-hub.active{background:var(--hub);border-color:var(--hub)}
+  .search-wrap{flex:1;min-width:220px;position:relative}
+  .search-wrap input{width:100%;padding:9px 14px 9px 36px;border:1px solid var(--line);background:var(--paper);border-radius:999px;font-family:inherit;font-size:13px;color:var(--ink);outline:none;transition:border-color .15s ease}
+  .search-wrap input:focus{border-color:var(--ink)}
+  .search-wrap::before{content:"";position:absolute;left:14px;top:50%;width:13px;height:13px;transform:translateY(-50%);background:no-repeat center / contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238A8478' stroke-width='2'><circle cx='11' cy='11' r='7'/><path d='m20 20-3.5-3.5'/></svg>")}
+
+  .result-bar{max-width:1280px;margin:24px auto 8px;padding:0 32px;display:flex;justify-content:space-between;align-items:baseline;font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-mute)}
+  .result-bar .reset{background:none;border:none;color:var(--accent);cursor:pointer;font:inherit;text-transform:inherit;letter-spacing:inherit;border-bottom:1px dotted var(--accent);padding:0}
+
+  .bu-section{max-width:1280px;margin:0 auto;padding:48px 32px 24px}
+  .bu-header{margin-bottom:28px}
+  .bu-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--accent);margin-bottom:8px;font-weight:500}
+  .bu-name{font-family:'Fraunces',serif;font-weight:500;font-size:44px;letter-spacing:-.02em;line-height:1;font-variation-settings:"opsz" 144;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+  .bu-name .bu-count{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-mute);letter-spacing:.08em;font-weight:400}
+  .bu-divider{height:1px;background:var(--ink);margin-top:14px}
+
+  .torre-block{margin-top:28px}
+  .torre-header{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+  .torre-name{font-family:'Fraunces',serif;font-weight:500;font-size:22px;letter-spacing:-.015em;font-variation-settings:"opsz" 144}
+  .torre-count{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-mute);letter-spacing:.08em;background:var(--paper);padding:2px 8px;border-radius:10px;border:1px solid var(--line)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+  .card{background:var(--paper);padding:22px 22px 18px;display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:background .15s ease;min-height:200px}
+  .card:hover{background:#FFFEFB}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .badge{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:500;padding:3px 9px;border-radius:999px;text-transform:uppercase;letter-spacing:.1em;flex-shrink:0}
+  .badge.core{background:var(--core-bg);color:var(--core)}
+  .badge.especialista{background:var(--especialista-bg);color:var(--especialista)}
+  .badge.hub{background:var(--hub-bg);color:var(--hub)}
+  .card-category{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.08em;text-align:right}
+  .card-name{font-family:'Fraunces',serif;font-weight:500;font-size:21px;letter-spacing:-.01em;line-height:1.15;font-variation-settings:"opsz" 100;margin-top:6px}
+  .card-desc{color:var(--ink-soft);font-size:13.5px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-top:2px}
+  .card-actions{margin-top:auto;padding-top:14px;display:flex;gap:14px;flex-wrap:wrap;border-top:1px dashed var(--line-soft)}
+  .card-action{font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-decoration:none;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em;display:inline-flex;align-items:center;gap:5px;transition:color .15s ease}
+  .card-action:hover{color:var(--accent)}
+  .card-action.dim{opacity:.3;pointer-events:none}
+  .card-action svg{width:11px;height:11px}
+
+  .empty-torre{background:var(--paper);border:1px dashed var(--line);border-radius:6px;padding:20px;text-align:center;color:var(--ink-mute);font-size:13px;font-style:italic}
+  .empty{max-width:1280px;margin:0 auto;padding:80px 32px;text-align:center;color:var(--ink-mute)}
+  .empty h3{font-family:'Fraunces',serif;font-weight:500;font-size:28px;color:var(--ink);margin-bottom:10px}
+
+  .foot{max-width:1280px;margin:80px auto 0;padding:40px 32px 60px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.08em}
+  .foot a{color:var(--ink-mute);text-decoration:none;border-bottom:1px dotted var(--line)}
+  .foot a:hover{color:var(--accent)}
+
+  @media (max-width:720px){
+    .hero{grid-template-columns:1fr;padding:40px 20px 24px}
+    .stats{border-left:none;border-top:1px solid var(--line);padding:24px 0 0;padding-left:0}
+    .bu-section{padding:32px 20px 20px}
+    .filter-label{width:auto}
+    .topbar-inner{padding:14px 20px}
+    .bu-name{font-size:32px}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">Portfólio nstech</div>
+    <div class="crumbs"><a href="https://marcelaemanueli.github.io/nstechorg-squads/">Estrutura</a> &nbsp;/&nbsp; Produtos</div>
+    <div class="spacer"></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Portfólio &middot; Produtos-alvo</div>
+    <h1>Tudo que a nstech<br/><em>oferece</em> em um só lugar.</h1>
+    <p class="hero-sub">Catálogo organizado por BU → Torre → Produto. Use os filtros para encontrar por BU, classificação ou nome.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="n" id="stat-prod">—</div><div class="l">Produtos</div></div>
+    <div class="stat"><div class="n" id="stat-bu">—</div><div class="l">BUs</div></div>
+    <div class="stat"><div class="n" id="stat-torre">—</div><div class="l">Torres</div></div>
+  </div>
+</section>
+
+<section class="filters">
+  <div class="filter-row">
+    <div class="filter-label">BU</div>
+    <div id="filters-bu" style="display:flex;flex-wrap:wrap;gap:8px;flex:1"></div>
+  </div>
+  <div class="filter-row">
+    <div class="filter-label">Classif.</div>
+    <button class="chip cls-core" data-cls="Core">Core <span class="count" id="cnt-core"></span></button>
+    <button class="chip cls-especialista" data-cls="Especialista">Especialista <span class="count" id="cnt-especialista"></span></button>
+    <button class="chip cls-hub" data-cls="Hub">Hub <span class="count" id="cnt-hub"></span></button>
+    <div class="search-wrap">
+      <input type="search" id="search" placeholder="Buscar produto, categoria ou descrição..." autocomplete="off"/>
+    </div>
+  </div>
+</section>
+
+<div class="result-bar">
+  <span><span id="result-count">—</span> resultados</span>
+  <button class="reset" id="reset-btn">Limpar filtros</button>
+</div>
+
+<main id="content"></main>
+
+<footer class="foot">
+  <div>nstech &middot; People &amp; Culture</div>
+  <div>Dados: <a href="#">Airtable Portfólio</a> &nbsp;·&nbsp; <a href="https://marcelaemanueli.github.io/nstechorg-squads/">Voltar à estrutura</a></div>
+</footer>
+
+<script>
+/* ===========================================================
+   ESTRUTURA: BU → Torre → Produto
+   =========================================================== */
+const BU_STRUCTURE = {
+  "PSL": ["Fintech", "TMS", "Mobilidade"],
+  "Embarcador": ["Embarcador", "PME", "MG", "VGR", "IM"],
+  "Projetos Estratégicos": [
+    "Componentização",
+    "Jornada Entre",
+    "Camada de Customização",
+    "Integração do Backend",
+    "Front e Login Unificado",
+    "NsAPPS",
+    "NS Data Platform"
+  ]
+};
+
+const TORRE_TO_BU = {};
+Object.entries(BU_STRUCTURE).forEach(([bu, torres])=>{
+  torres.forEach(t => TORRE_TO_BU[t] = bu);
+});
+
+/* ===========================================================
+   PRODUTOS (do Airtable)
+   =========================================================== */
+const PRODUCTS = [
+  // Torre Embarcador → BU Embarcador
+  {torre:"Embarcador", item:"YMS / Gate-in", cls:"Core", nome:"KMM - Flow TOS/Automação", desc:"Ferramenta de gestão de Logística.", site:"https://kmm.com.br/tos/", pitch:null, demo:null},
+  {torre:"Embarcador", item:"YMS / Gate-in", cls:"Core", nome:"KMM - Novo YMS (.Net)", desc:"Ferramenta para Gestão de Operação.", site:"https://www.trizy.com.br/", pitch:null, demo:null},
+  {torre:"Embarcador", item:"TMS Embarcador e-comm", cls:"Core", nome:"Frete Rápido - Gestão de Fretes", desc:"TMS especializado em e-commerce.", site:"https://freterapido.com/", pitch:null, demo:null},
+  {torre:"Embarcador", item:"Super App", cls:"Core", nome:"Trizy - Super App", desc:"O Trizy - Super App é uma solução digital.", site:"https://www.trizy.com.br", pitch:"https://www.youtube.com/", demo:"https://youtu.be/cJ-1yC6g"},
+  {torre:"Embarcador", item:"TMS Embarcador", cls:"Core", nome:"Multisoftware - MultiEmbarcador", desc:"O MultiEmbarcador, da Multisoftware, é um TMS robusto.", site:"https://multisoftware.com/", pitch:null, demo:null},
+  {torre:"Embarcador", item:"Gestão de Entregas", cls:"Especialista", nome:"Comprovei - Comprovei Enterprise", desc:"Plataforma em tempo real para gestão de entregas.", site:"https://comprovei.com", pitch:null, demo:null},
+  {torre:"Embarcador", item:"Gestão de Entregas", cls:"Especialista", nome:"Comprovei - Comprovei Cargo", desc:"Plataforma em tempo real para gestão de cargas.", site:"https://comprovei.com/", pitch:null, demo:null},
+  {torre:"Embarcador", item:"YMS / Gate-out", cls:"Especialista", nome:"TNS Agendamento", desc:"O Trizy - TSM é uma plataforma voltada para agendamento.", site:"https://www.trizy.com.br/", pitch:null, demo:null},
+  {torre:"Embarcador", item:"WMS e Gestão de Terminais", cls:"Especialista", nome:"WMS - Locus", desc:"O WMS - Locus é um sistema de gestão de armazéns.", site:"https://kmm.com.br/", pitch:"https://vimeo.com/8708280", demo:"https://vimeo.com/870828"},
+  {torre:"Embarcador", item:"WMS e Gestão de Terminais", cls:"Especialista", nome:"KMM - Portus (GTP)", desc:"Produto voltado ao mercado de médios e grandes operadores logísticos.", site:null, pitch:null, demo:null},
+  {torre:"Embarcador", item:"Roteirizador", cls:"Especialista", nome:"Routeasy - Routing", desc:"Plataforma de Roteirização com uso de inteligência.", site:"https://routeasy.com/", pitch:"https://www.youtube.com/", demo:"https://drive.google.com/"},
+  {torre:"Embarcador", item:"Roteirizador", cls:"Especialista", nome:"RoutEasy - Maestro", desc:"Plataforma de automação de planejamento de rotas.", site:"https://routeasy.com/", pitch:"https://www.youtube.com/", demo:"https://drive.google.com/"},
+  {torre:"Embarcador", item:"Hub de Agendamento", cls:"Especialista", nome:"TNS Gestão de Pedidos", desc:"Trizy - GPED é uma solução desenvolvida para gestão de pedidos.", site:"https://www.trizy.com.br/", pitch:null, demo:null},
+  {torre:"Embarcador", item:"Torre de Controle", cls:"Especialista", nome:"Multi - Torre de Controle", desc:"Solução para gestão de Torre de Controle.", site:null, pitch:null, demo:null},
+  {torre:"Embarcador", item:"Etiqueta de Frete", cls:"Hub", nome:"Frete Rápido - Shippon", desc:"Frete Rápido - Shippon é uma solução para etiquetas.", site:"https://shippon.com.br/", pitch:null, demo:null},
+  {torre:"Embarcador", item:"Hub de Oferta de Cargas", cls:"Hub", nome:"Hub de Oferta de cargas", desc:"Hub de oferta de cargas conectando embarcadores e transportadores.", site:null, pitch:null, demo:null},
+  {torre:"Embarcador", item:"YMS / Gate-in", cls:"Core", nome:"GBM - TOT", desc:"O GBM - TOT é uma solução desenvolvida para gestão portuária.", site:"https://www.gbmtech.com/", pitch:null, demo:null},
+
+  // Torre Fintech → BU PSL
+  {torre:"Fintech", item:"Soluções de Pedágio", cls:"Especialista", nome:"qualp", desc:"qualp é uma solução digital voltada para roteirização e pedágio.", site:"http://qualp.com.br", pitch:null, demo:null},
+  {torre:"Fintech", item:"Soluções de Pedágio", cls:"Especialista", nome:"nspedágio - Integradores", desc:"nspedágio - Integradores é uma solução para integração de pagamento de pedágio.", site:null, pitch:null, demo:null},
+  {torre:"Fintech", item:"Soluções de Pedágio", cls:"Hub", nome:"nspedágio - Conta única", desc:"nspedágio - Conta única é uma solução de conta digital.", site:"https://www.nstech.com.br/", pitch:null, demo:null},
+  {torre:"Fintech", item:"PEF - Pagamento Eletrônico", cls:"Hub", nome:"efrete - Pagamento Eletrônico de Frete", desc:"efrete - Pagamento Eletrônico de Frete.", site:"https://www.efrete.com.br/", pitch:null, demo:null},
+  {torre:"Fintech", item:"PEF - Pagamento Eletrônico", cls:"Hub", nome:"efrete - PEF - Licença de Integração", desc:"efrete - PEF - Licença de Integração é uma solução para integrações fiscais.", site:"https://www.efrete.com.br/", pitch:null, demo:null},
+  {torre:"Fintech", item:"PEF - Pagamento Eletrônico", cls:"Hub", nome:"efrete - PEF - Credenciado", desc:"O efrete - PEF - Credenciado é uma solução de credenciamento.", site:"https://www.efrete.com.br/", pitch:null, demo:null},
+  {torre:"Fintech", item:"Gestão de Combustível", cls:"Hub", nome:"Gasola", desc:"Solução para gestão de combustível.", site:null, pitch:null, demo:null},
+  {torre:"Fintech", item:"Serviços Financeiros", cls:"Hub", nome:"efrete - Conta Digital PJ", desc:"efrete - Conta Digital PJ é uma solução de conta digital para pessoa jurídica.", site:"https://www.efrete.com.br", pitch:null, demo:null},
+  {torre:"Fintech", item:"Serviços Financeiros", cls:"Hub", nome:"efrete - Conta Digital PF", desc:"O efrete - Conta Digital PF é uma solução de conta digital para pessoa física.", site:"https://www.efrete.com.br", pitch:null, demo:null},
+  {torre:"Fintech", item:"Serviços Financeiros", cls:"Hub", nome:"nsflow", desc:"O nsflow é uma solução desenvolvida para fluxo financeiro.", site:"https://www.efrete.com.br", pitch:null, demo:null},
+
+  // Torre IM → BU Embarcador
+  {torre:"IM", item:"Softwares para Seguradoras", cls:"Core", nome:"nsseg - Faturamento (CITWEB)", desc:"O nsseg - Faturamento (CITWEB) é uma plataforma de faturamento para seguradoras.", site:"https://nsseg.com.br/", pitch:null, demo:null},
+  {torre:"IM", item:"Softwares para Corretoras", cls:"Core", nome:"nscorr", desc:"O nscorr é um sistema de gestão para corretoras de seguros.", site:"https://nscorr.com.br", pitch:null, demo:null},
+  {torre:"IM", item:"Softwares para Seguradoras", cls:"Especialista", nome:"nsseg - Jornada de Cotação", desc:"O nsseg - Jornada de Cotação é uma plataforma de cotação para seguradoras.", site:"https://www.nsseg.com.br", pitch:null, demo:null},
+  {torre:"IM", item:"Softwares para Resseguradoras", cls:"Especialista", nome:"nsre", desc:"nsre é uma plataforma digital para resseguradoras.", site:"https://plataforma.nsre.co/", pitch:null, demo:null},
+  {torre:"IM", item:"Softwares para Seguradoras", cls:"Hub", nome:"nsseg - Averbação", desc:"O nsseg - Averbação é uma solução de averbação de seguros.", site:null, pitch:null, demo:"https://youtu.be/ioTsdH16"},
+
+  // Torre MG → BU Embarcador
+  {torre:"MG", item:"TMS Transportador FTL Ag", cls:"Core", nome:"Atua - Mais Frete", desc:"Atua - Mais Frete é um sistema de gestão de fretes.", site:"https://www.atua.com.br/", pitch:null, demo:null},
+  {torre:"MG", item:"TMS Transportador FTL M", cls:"Core", nome:"New KMM", desc:"Produto com base tecnológica Multi TM.", site:"https://kmm.com.br/", pitch:null, demo:null},
+  {torre:"MG", item:"TMS Transportador FTL M", cls:"Core", nome:"New KMM - LTL", desc:"TMS para transportadores LTL.", site:null, pitch:null, demo:null},
+  {torre:"MG", item:"TMS Cabotagem", cls:"Core", nome:"Multisoftware - MultiCabotagem", desc:"Um Sistema de Gestão de Transporte voltado para cabotagem.", site:null, pitch:null, demo:null},
+  {torre:"MG", item:"Jornada de Trabalho", cls:"Especialista", nome:"ATSlog - ATSguiarh", desc:"O ATSlog - ATSguiarh é um sistema para jornada de trabalho.", site:"https://atsjornada.com.br/", pitch:"https://www.youtube.com/", demo:null},
+  {torre:"MG", item:"Jornada de Trabalho", cls:"Especialista", nome:"ATSlog - Jornada Assistida", desc:"O ATSlog - Jornada Assistida é uma solução completa para jornada.", site:"https://atsjornada.com.br/", pitch:null, demo:null},
+  {torre:"MG", item:"Torre de Controle PSL", cls:"Especialista", nome:"ATSlog - ATSsiga Smartweb", desc:"O ATSlog - ATSsiga Smartweb é uma plataforma de torre de controle.", site:"https://atsjornada.com.br/", pitch:null, demo:null},
+  {torre:"MG", item:"Marketplace / e-procurement", cls:"Hub", nome:"KMM - nskote", desc:"KMM - nskote é uma plataforma digital para cotação e e-procurement.", site:"https://99kote.com.br/", pitch:null, demo:null},
+
+  // Torre Mobilidade → BU PSL
+  {torre:"Mobilidade", item:"TMS Passageiros Médio e Grande", cls:"Core", nome:"Praxio - Globus", desc:"Praxio - Globus é um sistema de gestão para empresas médias e grandes.", site:"https://praxio.com.br/", pitch:"https://www.youtube.com/", demo:"https://www.youtube.com/"},
+  {torre:"Mobilidade", item:"TMS Passageiros Micro e Pequena", cls:"Core", nome:"Praxio - Siga", desc:"Praxio - Siga é um sistema de gestão para micro e pequenas empresas.", site:"https://praxio.com.br/", pitch:"https://www.youtube.com/", demo:null},
+  {torre:"Mobilidade", item:"TMS Passageiros Micro e Pequena", cls:"Core", nome:"Praxio - Siga Emissor", desc:"Emissor CTeOS.", site:null, pitch:"https://vimeo.com/1027763", demo:null},
+  {torre:"Mobilidade", item:"TMS Passageiros Micro e Pequena", cls:"Core", nome:"Praxio - Siga One", desc:"Praxio - Siga One é um sistema de gestão integrado.", site:"https://praxio.com.br/", pitch:null, demo:null},
+  {torre:"Mobilidade", item:"Gestão de Passagens Rodoviárias", cls:"Hub", nome:"Praxio - Luna", desc:"Praxio - Luna é uma solução web de venda de passagens.", site:"https://praxio.com.br/", pitch:"https://www.youtube.com/", demo:null},
+
+  // Torre PME → BU Embarcador
+  {torre:"PME", item:"TMS Transportador FTL Pe", cls:"Core", nome:"Bsoft - TMS", desc:"O Bsoft - TMS é um software em nuvem para gestão de transportes.", site:"https://bsoft.com.br/", pitch:null, demo:"https://youtu.be/-becE70Z"},
+  {torre:"PME", item:"TMS Transportador FTL Mi", cls:"Core", nome:"Hivecloud - CTe", desc:"Hivecloud - CTe é um sistema online para emissão de CTe.", site:"https://www.hivecloud.co/", pitch:null, demo:"https://www.youtube.com/"},
+  {torre:"PME", item:"TMS Transportador FTL Mi", cls:"Core", nome:"Hivecloud - MDFe", desc:"O Hivecloud - MDFe é um sistema online para emissão de MDFe.", site:"https://www.hivecloud.co/", pitch:"https://www.youtube.com/", demo:"https://www.youtube.com/"},
+  {torre:"PME", item:"ERP e Emissores para Varejo", cls:"Core", nome:"Otimizy - ErpSoft Desktop", desc:"Aplicação para gestão administrativo e fiscal.", site:"https://site.erpsoft.com.br/", pitch:"https://www.youtube.com/", demo:null},
+  {torre:"PME", item:"Armazenamento de XML", cls:"Especialista", nome:"Bsoft - nsdocs", desc:"Bsoft - nsdocs é uma solução em nuvem para armazenamento de XML.", site:"https://nsdocs.com.br/", pitch:"https://www.youtube.com/", demo:"https://www.youtube.com/"},
+
+  // Torre VGR → BU Embarcador
+  {torre:"VGR", item:"Software de Gestão de Riscos", cls:"Core", nome:"Trafegus - Gestão de Riscos - Web", desc:"Sistema robusto, completo e seguro para gestão de riscos.", site:"https://trafegus.com.br/", pitch:null, demo:null},
+  {torre:"VGR", item:"Cadastro", cls:"Especialista", nome:"BU VGR - Cadastro Unificado", desc:"BU VGR - Cadastro Unificado é uma plataforma centralizada de cadastro.", site:null, pitch:"https://youtu.be/GxQXKKW", demo:null},
+  {torre:"VGR", item:"Software de Gestão de Riscos", cls:"Especialista", nome:"Trafegus - Checklist", desc:"Aplicativo mobile para localização através de checklist.", site:"https://www.trafegus.com/", pitch:null, demo:null},
+  {torre:"VGR", item:"Software de Gestão de Riscos", cls:"Especialista", nome:"Trafegus - CAD 4.0", desc:"Sistema CAD 4.0 de cadastro de motoristas.", site:"https://trafegus.com.br/", pitch:null, demo:null},
+  {torre:"VGR", item:"Rastreamento e Telemetria", cls:"Especialista", nome:"Buonny - Buonny Tech", desc:"Aplicação que permite a integração entre sistemas de rastreamento.", site:null, pitch:null, demo:null},
+  {torre:"VGR", item:"Prevenção de Acidentes", cls:"Especialista", nome:"Onisys - Prevenção de Acidentes", desc:"Onisys - Prevenção de Acidentes é uma solução completa.", site:"https://onisys.com.br/", pitch:"https://www.youtube.com/", demo:null},
+  {torre:"VGR", item:"Prevenção de Acidentes", cls:"Especialista", nome:"Onisys - Torre de Prevenção de Acidentes", desc:"Onisys - Torre de Prevenção de Acidentes para gestão centralizada.", site:"https://onisys.com.br/", pitch:"https://youtu.be/e5KXncU7c4", demo:null}
+
+  // Torre TMS (BU PSL) e Projetos Estratégicos: sem produtos cadastrados ainda
+];
+
+/* ===========================================================
+   ESTADO
+   =========================================================== */
+const state = { search:"", bu:null, cls:null };
+const BUS = Object.keys(BU_STRUCTURE);
+const TOTAL_TORRES = Object.values(BU_STRUCTURE).reduce((a,t)=>a+t.length, 0);
+
+function classCount(cls){ return PRODUCTS.filter(p=>p.cls===cls).length; }
+function buCount(bu){
+  const torres = BU_STRUCTURE[bu];
+  return PRODUCTS.filter(p => torres.includes(p.torre)).length;
+}
+
+function init(){
+  document.getElementById('stat-prod').textContent = PRODUCTS.length;
+  document.getElementById('stat-bu').textContent = BUS.length;
+  document.getElementById('stat-torre').textContent = TOTAL_TORRES;
+  document.getElementById('cnt-core').textContent = classCount('Core');
+  document.getElementById('cnt-especialista').textContent = classCount('Especialista');
+  document.getElementById('cnt-hub').textContent = classCount('Hub');
+
+  const buWrap = document.getElementById('filters-bu');
+  BUS.forEach(bu=>{
+    const b = document.createElement('button');
+    b.className='chip';
+    b.dataset.bu=bu;
+    b.innerHTML = `${bu} <span class="count">${buCount(bu)}</span>`;
+    b.addEventListener('click', ()=>{
+      state.bu = state.bu===bu ? null : bu;
+      render();
+    });
+    buWrap.appendChild(b);
+  });
+
+  document.querySelectorAll('[data-cls]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      state.cls = state.cls===el.dataset.cls ? null : el.dataset.cls;
+      render();
+    });
+  });
+
+  document.getElementById('search').addEventListener('input', e=>{
+    state.search = e.target.value.toLowerCase().trim();
+    render();
+  });
+
+  document.getElementById('reset-btn').addEventListener('click', ()=>{
+    state.search="";state.bu=null;state.cls=null;
+    document.getElementById('search').value="";
+    render();
+  });
+
+  render();
+}
+
+function filter(){
+  return PRODUCTS.filter(p=>{
+    if(state.bu && TORRE_TO_BU[p.torre] !== state.bu) return false;
+    if(state.cls && p.cls !== state.cls) return false;
+    if(state.search){
+      const hay = `${p.nome} ${p.item} ${p.desc} ${p.torre}`.toLowerCase();
+      if(!hay.includes(state.search)) return false;
+    }
+    return true;
+  });
+}
+
+function render(){
+  document.querySelectorAll('.chip[data-bu]').forEach(c=>{
+    c.classList.toggle('active', c.dataset.bu===state.bu);
+  });
+  document.querySelectorAll('.chip[data-cls]').forEach(c=>{
+    c.classList.toggle('active', c.dataset.cls===state.cls);
+  });
+
+  const filtered = filter();
+  document.getElementById('result-count').textContent = filtered.length;
+
+  const content = document.getElementById('content');
+  content.innerHTML = '';
+
+  if(filtered.length === 0){
+    content.innerHTML = `<div class="empty"><h3>Nenhum produto encontrado</h3><p>Tente ajustar os filtros ou usar outros termos de busca.</p></div>`;
+    return;
+  }
+
+  const hasFilters = !!(state.search || state.cls || state.bu);
+
+  BUS.forEach(bu=>{
+    if(state.bu && state.bu !== bu) return;
+
+    const torres = BU_STRUCTURE[bu];
+    const torresWithProducts = {};
+    torres.forEach(t => { torresWithProducts[t] = []; });
+    filtered.forEach(p=>{
+      if(torres.includes(p.torre)) torresWithProducts[p.torre].push(p);
+    });
+
+    const total = Object.values(torresWithProducts).reduce((a,arr)=>a+arr.length,0);
+    // Esconde BUs sem nada quando há busca/classif. ativa
+    if((state.search || state.cls) && total === 0) return;
+
+    const section = document.createElement('section');
+    section.className = 'bu-section';
+    section.innerHTML = `
+      <header class="bu-header">
+        <div class="bu-tag">Business Unit</div>
+        <div class="bu-name">${bu} <span class="bu-count">${total} ${total===1?'produto':'produtos'} · ${torres.length} ${torres.length===1?'torre':'torres'}</span></div>
+        <div class="bu-divider"></div>
+      </header>
+    `;
+
+    torres.forEach(t=>{
+      const prods = torresWithProducts[t];
+      // Quando há busca/classif. ativa, esconde torres vazias
+      if((state.search || state.cls) && prods.length === 0) return;
+
+      const block = document.createElement('div');
+      block.className = 'torre-block';
+      const torreLabel = (bu === 'Projetos Estratégicos') ? t : `Torre ${t}`;
+      block.innerHTML = `
+        <div class="torre-header">
+          <div class="torre-name">${torreLabel}</div>
+          <div class="torre-count">${prods.length} ${prods.length===1?'produto':'produtos'}</div>
+        </div>
+      `;
+
+      if(prods.length === 0){
+        const empty = document.createElement('div');
+        empty.className = 'empty-torre';
+        empty.textContent = 'Sem produtos cadastrados no Airtable ainda.';
+        block.appendChild(empty);
+      } else {
+        const grid = document.createElement('div');
+        grid.className = 'grid';
+        prods.forEach(p => grid.appendChild(cardEl(p)));
+        block.appendChild(grid);
+      }
+      section.appendChild(block);
+    });
+
+    content.appendChild(section);
+  });
+}
+
+function cardEl(p){
+  const el = document.createElement('article');
+  el.className = 'card';
+  el.innerHTML = `
+    <div class="card-top">
+      <span class="badge ${p.cls.toLowerCase()}">${p.cls}</span>
+      <span class="card-category">${p.item}</span>
+    </div>
+    <h3 class="card-name">${p.nome}</h3>
+    <p class="card-desc">${p.desc || '<em style="opacity:.6">Sem descrição</em>'}</p>
+    <div class="card-actions">
+      ${actionLink('Site', p.site, 'arrow')}
+      ${actionLink('Pitch 5min', p.pitch, 'play')}
+      ${actionLink('Demo 30min', p.demo, 'play')}
+    </div>
+  `;
+  el.addEventListener('click', e=>{
+    if(e.target.closest('a')) return;
+    if(p.site) window.open(p.site, '_blank', 'noopener');
+  });
+  return el;
+}
+
+function actionLink(label, url, kind){
+  if(!url) return `<span class="card-action dim">${label}</span>`;
+  const icon = kind==='play'
+    ? `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>`;
+  return `<a class="card-action" href="${url}" target="_blank" rel="noopener">${icon}${label}</a>`;
+}
+
+init();
+</script>
+</body>
+</html>
